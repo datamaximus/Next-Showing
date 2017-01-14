@@ -6,7 +6,11 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jasonwiram.nextshowing.Model.Movie;
+import com.jasonwiram.nextshowing.Model.Results;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +18,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -25,18 +31,36 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private Results mResults;
+    private String queryString;
+    private double mRatingThreshold = 9.0;
+    private int mMinimumRatings = 0;
+    private int mGteReleaseDate = 2015;
+    private int mLteReleaseDate = 2016;
+
+    @BindView(R.id.resultsTextView) TextView mResultsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        String tmdbUrl = "https://api.themoviedb.org/3/discover/movie?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1&primary_release_year=2016";
+        String discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
+                "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
+                "&language=en-US" +
+                "&sort_by=popularity.desc" +
+                "&include_adult=false" +
+                "&include_video=false" +
+                "&page=1" +
+                "&primary_release_date.gte=" + mGteReleaseDate +
+                "&primary_release_date.lte=" + mLteReleaseDate +
+                "&vote_count.gte=" + mMinimumRatings +
+                "&vote_average.gte=" + mRatingThreshold;
 
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url(tmdbUrl)
+                    .url(discoverUrl)
                     .build();
 
             Call call = client.newCall(request);
@@ -50,18 +74,23 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     try {
                         String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             mResults = getResults(jsonData);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateResults();
+                                }
+                            });
                         } else {
                             alertUserAboutError();
                         }
                     }
                     catch (IOException e) {
-                        Log.e(TAG, "Exception caught: ", e);
+                        Log.e(TAG, "IOException caught: ", e);
                     }
                     catch (JSONException e) {
-                        Log.e(TAG, "Exception caught: ", e);
+                        Log.e(TAG, "JSONException caught: ", e);
                     }
                 }
             });
@@ -71,10 +100,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateResults() {
+        mResultsTextView.setText(queryString);
+    }
+
     private Results getResults(String jsonData) throws JSONException {
-        JSONObject jsonObject = new JSONObject(jsonData);
-        JSONArray results = jsonObject.getJSONArray("results");
+        JSONObject resultsObject = new JSONObject(jsonData);
+        JSONArray results = resultsObject.getJSONArray("results");
         Log.i(TAG, "Results data: " + results);
+        queryString = "Results data: " + results;
 
         return new Results();
     }
