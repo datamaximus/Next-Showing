@@ -1,4 +1,4 @@
-package com.jasonwiram.nextshowing;
+package com.jasonwiram.nextshowing.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

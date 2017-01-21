@@ -5,6 +5,11 @@ public class Movie {
     private String mOverview;
     private String mPoster;
     private double mRating;
+    private int[] mGenres;
+    private double mPopularity;
+    private int mId;
+    private String mReleaseDate;
+
 
     public String getTitle() {
         return mTitle;
@@ -36,5 +41,37 @@ public class Movie {
 
     public void setRating(double rating) {
         mRating = rating;
+    }
+
+    public int[] getGenres() {
+        return mGenres;
+    }
+
+    public void setGenres(int[] genres) {
+        mGenres = genres;
+    }
+
+    public double getPopularity() {
+        return mPopularity;
+    }
+
+    public void setPopularity(double popularity) {
+        mPopularity = popularity;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public String getReleaseDate() {
+        return mReleaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        mReleaseDate = releaseDate;
     }
 }

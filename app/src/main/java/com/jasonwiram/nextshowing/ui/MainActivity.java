@@ -1,16 +1,19 @@
-package com.jasonwiram.nextshowing;
+package com.jasonwiram.nextshowing.ui;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
+import com.jasonwiram.nextshowing.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,24 +29,27 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private Results mResults;
-    private String queryString;
     private double mRatingThreshold = 9.0;
     private int mMinimumRatings = 0;
     private int mGteReleaseDate = 2015;
     private int mLteReleaseDate = 2016;
 
-    @BindView(R.id.resultsTextView) TextView mResultsTextView;
+    private Movie[] mMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(this,
+                android.R.layout.simple_list_item_1,
+                mMovies);
+        setListAdapter(adapter);
 
         String discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
                 "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String jsonData = response.body().string();
                         if (response.isSuccessful()) {
-                            mResults = getResults(jsonData);
+                            mMovies = getMovies(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -101,16 +107,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateResults() {
-        mResultsTextView.setText(queryString);
+
     }
 
-    private Results getResults(String jsonData) throws JSONException {
-        JSONObject resultsObject = new JSONObject(jsonData);
-        JSONArray results = resultsObject.getJSONArray("results");
-        Log.i(TAG, "Results data: " + results);
-        queryString = "Results data: " + results;
+    private Movie[] getMovies(String jsonData) throws JSONException {
+        JSONObject resultsData = new JSONObject(jsonData);
+        JSONArray results = resultsData.getJSONArray("results");
 
-        return new Results();
+        Movie[] movies = new Movie[results.length()];
+
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject jsonMovie = results.getJSONObject(i);
+            Movie movie = new Movie();
+
+            movie.setTitle(jsonMovie.getString("original_title"));
+            movie.setOverview(jsonMovie.getString("overview"));
+            movie.setPoster(jsonMovie.getString("poster_path"));
+            movie.setRating(jsonMovie.getDouble("vote_average"));
+//            movie.setGenres
+            movie.setPopularity(jsonMovie.getDouble("popularity"));
+            movie.setId(jsonMovie.getInt("id"));
+            movie.setReleaseDate(jsonMovie.getString("release_date"));
+
+            movies[i] = movie;
+        }
+
+        return movies;
     }
 
     private boolean isNetworkAvailable() {
