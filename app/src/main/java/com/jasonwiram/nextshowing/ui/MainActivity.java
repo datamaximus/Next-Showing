@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
 import com.jasonwiram.nextshowing.R;
+import com.jasonwiram.nextshowing.adapters.MovieAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +34,7 @@ public class MainActivity extends ListActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private double mRatingThreshold = 9.0;
+    private double mRatingThreshold = 9.5;
     private int mMinimumRatings = 0;
     private int mGteReleaseDate = 2015;
     private int mLteReleaseDate = 2016;
@@ -45,11 +46,6 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(this,
-                android.R.layout.simple_list_item_1,
-                mMovies);
-        setListAdapter(adapter);
 
         String discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
                 "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
@@ -107,7 +103,9 @@ public class MainActivity extends ListActivity {
     }
 
     private void updateResults() {
-
+        MovieAdapter adapter = new MovieAdapter(this,
+                mMovies);
+        setListAdapter(adapter);
     }
 
     private Movie[] getMovies(String jsonData) throws JSONException {

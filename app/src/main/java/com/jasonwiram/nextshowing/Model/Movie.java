@@ -32,7 +32,7 @@ public class Movie {
     }
 
     public void setPoster(String poster) {
-        mPoster = poster;
+        mPoster = "http://image.tmdb.org/t/p/w780/" + poster;
     }
 
     public double getRating() {
