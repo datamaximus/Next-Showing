@@ -45,6 +45,9 @@ public class MovieAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.movie_item, null);
             holder = new ViewHolder();
             holder.titleTextView = (TextView)view.findViewById(R.id.titleTextView);
+//            holder.overviewTextView = (TextView)view.findViewById(R.id.overviewTextView);
+//            holder.releaseDateTextView = (TextView)view.findViewById(R.id.releaseDateTextView);
+//            holder.ratingTextView = (TextView)view.findViewById(R.id.ratingTextView);
             holder.posterImageView = (ImageView)view.findViewById(R.id.posterImageView);
 
             view.setTag(holder);
@@ -56,6 +59,9 @@ public class MovieAdapter extends BaseAdapter {
         Movie movie = mMovies[i];
 
         holder.titleTextView.setText(movie.getTitle());
+//        holder.overviewTextView.setText(movie.getOverview());
+//        holder.releaseDateTextView.setText(movie.getReleaseDate());
+//        holder.ratingTextView.setText(movie.getRating());
         Picasso.with(mContext).load(movie.getPoster()).into(holder.posterImageView);
 
         return view;
@@ -63,6 +69,9 @@ public class MovieAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         TextView titleTextView;
+//        TextView overviewTextView;
+//        TextView releaseDateTextView;
+//        TextView ratingTextView;
         ImageView posterImageView;
     }
 }

@@ -34,10 +34,10 @@ public class MainActivity extends ListActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    private double mRatingThreshold = 9.5;
-    private int mMinimumRatings = 0;
-    private int mGteReleaseDate = 2015;
-    private int mLteReleaseDate = 2016;
+    private double mRatingThreshold = 7.5;
+    private int mMinimumRatings = 10;
+    private int mGteReleaseDate = 1950;
+    private int mLteReleaseDate = 2017;
 
     private Movie[] mMovies;
 
@@ -118,7 +118,7 @@ public class MainActivity extends ListActivity {
             JSONObject jsonMovie = results.getJSONObject(i);
             Movie movie = new Movie();
 
-            movie.setTitle(jsonMovie.getString("original_title"));
+            movie.setTitle(jsonMovie.getString("title"));
             movie.setOverview(jsonMovie.getString("overview"));
             movie.setPoster(jsonMovie.getString("poster_path"));
             movie.setRating(jsonMovie.getDouble("vote_average"));

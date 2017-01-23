@@ -4,7 +4,7 @@ public class Movie {
     private String mTitle;
     private String mOverview;
     private String mPoster;
-    private double mRating;
+    private String mRating;
     private int[] mGenres;
     private double mPopularity;
     private int mId;
@@ -35,12 +35,12 @@ public class Movie {
         mPoster = "http://image.tmdb.org/t/p/w780/" + poster;
     }
 
-    public double getRating() {
+    public String getRating() {
         return mRating;
     }
 
     public void setRating(double rating) {
-        mRating = rating;
+        mRating = "Rating: " + Double.toString(rating);
     }
 
     public int[] getGenres() {
@@ -72,6 +72,6 @@ public class Movie {
     }
 
     public void setReleaseDate(String releaseDate) {
-        mReleaseDate = releaseDate;
+        mReleaseDate = "Year: " + releaseDate.substring(0,4);
     }
 }
