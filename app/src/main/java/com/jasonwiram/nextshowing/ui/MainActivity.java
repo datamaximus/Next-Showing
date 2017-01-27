@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
 import com.jasonwiram.nextshowing.R;
 import com.jasonwiram.nextshowing.adapters.MovieAdapter;
+import com.jasonwiram.nextshowing.adapters.MovieRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +35,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends ListActivity {
+import static com.jasonwiram.nextshowing.R.layout.activity_main;
+
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -43,10 +49,16 @@ public class MainActivity extends ListActivity {
     private Genre mGenres = new Genre();
     private Movie[] mMovies;
 
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         ButterKnife.bind(this);
 
         String discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
@@ -105,9 +117,11 @@ public class MainActivity extends ListActivity {
     }
 
     private void updateResults() {
-        MovieAdapter adapter = new MovieAdapter(this,
-                mMovies);
-        setListAdapter(adapter);
+        MovieRecyclerViewAdapter adapter = new MovieRecyclerViewAdapter(this, mMovies);
+        mRecyclerView.setAdapter(adapter);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     private Movie[] getMovies(String jsonData) throws JSONException {
