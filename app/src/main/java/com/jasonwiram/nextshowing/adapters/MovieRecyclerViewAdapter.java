@@ -1,12 +1,14 @@
 package com.jasonwiram.nextshowing.adapters;
 
 import android.content.Context;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.R;
@@ -40,7 +42,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         return mMovies.length;
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView titleTextView;
         TextView overviewTextView;
@@ -58,6 +60,8 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             ratingTextView = (TextView)itemView.findViewById(R.id.ratingTextView);
             genreTextView = (TextView)itemView.findViewById(R.id.genreTextView);
             posterImageView = (ImageView)itemView.findViewById(R.id.posterImageView);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bindMovie(Movie movie) {
@@ -67,6 +71,15 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             ratingTextView.setText(movie.getRating());
             genreTextView.setText(movie.getGenresString());
             Picasso.with(mContext).load(movie.getPoster()).into(posterImageView);
+        }
+
+        @Override
+        public void onClick(View view) {
+            displayMovieOverview();
+        }
+
+        private void displayMovieOverview() {
+            Toast.makeText(mContext, "Movie details", Toast.LENGTH_LONG).show();
         }
     }
 }

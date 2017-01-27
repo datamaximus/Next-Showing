@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -114,6 +116,21 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.options:
+            Toast.makeText(this, "Search not yet implemented.", Toast.LENGTH_LONG).show();
+            return(true);
+    }
+        return(super.onOptionsItemSelected(item));
     }
 
     private void updateResults() {
