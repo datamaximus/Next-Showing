@@ -1,11 +1,13 @@
 package com.jasonwiram.nextshowing.Model;
 
+import android.text.TextUtils;
+
 public class Movie {
     private String mTitle;
     private String mOverview;
     private String mPoster;
     private String mRating;
-    private int[] mGenres;
+    private String[] mGenres;
     private double mPopularity;
     private int mId;
     private String mReleaseDate;
@@ -32,7 +34,7 @@ public class Movie {
     }
 
     public void setPoster(String poster) {
-        mPoster = "http://image.tmdb.org/t/p/w780/" + poster;
+        mPoster = "http://image.tmdb.org/t/p/w500/" + poster;
     }
 
     public String getRating() {
@@ -43,11 +45,15 @@ public class Movie {
         mRating = "Rating: " + Double.toString(rating);
     }
 
-    public int[] getGenres() {
+    public String[] getGenres() {
         return mGenres;
     }
 
-    public void setGenres(int[] genres) {
+    public String getGenresString() {
+        return TextUtils.join("/", getGenres());
+    }
+
+    public void setGenres(String[] genres) {
         mGenres = genres;
     }
 

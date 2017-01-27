@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jasonwiram.nextshowing.Model.Genre;
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
 import com.jasonwiram.nextshowing.R;
@@ -39,6 +40,7 @@ public class MainActivity extends ListActivity {
     private int mGteReleaseDate = 1950;
     private int mLteReleaseDate = 2017;
 
+    private Genre mGenres = new Genre();
     private Movie[] mMovies;
 
     @Override
@@ -122,10 +124,16 @@ public class MainActivity extends ListActivity {
             movie.setOverview(jsonMovie.getString("overview"));
             movie.setPoster(jsonMovie.getString("poster_path"));
             movie.setRating(jsonMovie.getDouble("vote_average"));
-//            movie.setGenres
             movie.setPopularity(jsonMovie.getDouble("popularity"));
             movie.setId(jsonMovie.getInt("id"));
             movie.setReleaseDate(jsonMovie.getString("release_date"));
+
+            JSONArray genresData = jsonMovie.getJSONArray("genre_ids");
+            String[] genres = new String[genresData.length()];
+            for (int j = 0; j < genresData.length(); j++) {
+                genres[j] = mGenres.genreIds.get(genresData.getInt(j));
+            }
+            movie.setGenres(genres);
 
             movies[i] = movie;
         }
