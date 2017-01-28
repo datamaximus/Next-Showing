@@ -1,7 +1,9 @@
 package com.jasonwiram.nextshowing.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.R;
+import com.jasonwiram.nextshowing.ui.MainActivity;
+import com.jasonwiram.nextshowing.ui.OverviewFragment;
 import com.squareup.picasso.Picasso;
 
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder> {
@@ -51,6 +54,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         TextView genreTextView;
         ImageView posterImageView;
 
+
         public MovieViewHolder(View itemView) {
             super(itemView);
 
@@ -79,7 +83,15 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         }
 
         private void displayMovieOverview() {
-            Toast.makeText(mContext, "Movie details", Toast.LENGTH_LONG).show();
+
+            Bundle bundle = new Bundle();
+//            bundle.putString("title", titleTextView.getText().toString());
+            bundle.putString("overview", overviewTextView.getText().toString());
+
+            FragmentManager fragmentManager =  ((MainActivity)mContext).getSupportFragmentManager();
+            OverviewFragment overviewFragment = new OverviewFragment();
+            overviewFragment.setArguments(bundle);
+            overviewFragment.show(fragmentManager, "Overview");
         }
     }
 }
