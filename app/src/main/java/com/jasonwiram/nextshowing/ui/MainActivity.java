@@ -1,9 +1,11 @@
 package com.jasonwiram.nextshowing.ui;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
 import com.jasonwiram.nextshowing.Model.Genre;
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
@@ -42,6 +50,7 @@ import static com.jasonwiram.nextshowing.R.layout.activity_main;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private Context mContext;
 
     private double mRatingThreshold = 7.5;
     private int mMinimumRatings = 10;
@@ -50,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Genre mGenres = new Genre();
     private Movie[] mMovies;
+    private String discoverUrl;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -57,13 +67,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
+        mContext = getBaseContext();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         ButterKnife.bind(this);
 
-        String discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
+        setDiscoverUrl();
+
+        fetchResults();
+    }
+
+    private void setDiscoverUrl() {
+        discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
                 "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
                 "&language=en-US" +
                 "&sort_by=popularity.desc" +
@@ -74,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 "&primary_release_date.lte=" + mLteReleaseDate +
                 "&vote_count.gte=" + mMinimumRatings +
                 "&vote_average.gte=" + mRatingThreshold;
+    }
 
+    private void fetchResults() {
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -127,7 +146,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.options:
-            Toast.makeText(this, "Search not yet implemented.", Toast.LENGTH_LONG).show();
+
+            MaterialDialog.Builder dialog = new MaterialDialog.Builder(this);
+
+                dialog.onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        setDiscoverUrl();
+                        fetchResults();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+
+                .title("Discover")
+                .customView(R.layout.search_fragment, true)
+                .positiveText("Search")
+                .negativeText("Cancel")
+                .show()
+            ;
+
             return(true);
     }
         return(super.onOptionsItemSelected(item));

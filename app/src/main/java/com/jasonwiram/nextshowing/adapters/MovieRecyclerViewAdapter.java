@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.R;
 import com.jasonwiram.nextshowing.ui.MainActivity;
@@ -84,14 +86,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         private void displayMovieOverview() {
 
-            Bundle bundle = new Bundle();
+//            Bundle bundle = new Bundle();
 //            bundle.putString("title", titleTextView.getText().toString());
-            bundle.putString("overview", overviewTextView.getText().toString());
+//            bundle.putString("overview", overviewTextView.getText().toString());
+//
+//            FragmentManager fragmentManager =  ((MainActivity)mContext).getSupportFragmentManager();
+//            OverviewFragment overviewFragment = new OverviewFragment();
+//            overviewFragment.setArguments(bundle);
+//            overviewFragment.show(fragmentManager, "Overview");
 
-            FragmentManager fragmentManager =  ((MainActivity)mContext).getSupportFragmentManager();
-            OverviewFragment overviewFragment = new OverviewFragment();
-            overviewFragment.setArguments(bundle);
-            overviewFragment.show(fragmentManager, "Overview");
+            new MaterialDialog.Builder(mContext)
+                    .title("Overview")
+                    .content(overviewTextView.getText().toString())
+                    .show();
         }
     }
 }
