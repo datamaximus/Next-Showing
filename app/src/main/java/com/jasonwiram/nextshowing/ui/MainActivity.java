@@ -46,6 +46,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.jasonwiram.nextshowing.R.layout.activity_main;
+import static com.jasonwiram.nextshowing.R.layout.search_fragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -149,6 +150,14 @@ public class MainActivity extends AppCompatActivity {
 
             MaterialDialog.Builder dialog = new MaterialDialog.Builder(this);
 
+            dialog.customView(R.layout.search_fragment, true)
+                .title("Discover")
+                .positiveText("Search")
+                .negativeText("Cancel");
+
+            TextView text = (TextView)findViewById(R.id.ratingSearchTextView);
+            Log.d(TAG, text.getText().toString());
+
                 dialog.onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -163,12 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
 
-                .title("Discover")
-                .customView(R.layout.search_fragment, true)
-                .positiveText("Search")
-                .negativeText("Cancel")
-                .show()
-            ;
+            .show();
 
             return(true);
     }
