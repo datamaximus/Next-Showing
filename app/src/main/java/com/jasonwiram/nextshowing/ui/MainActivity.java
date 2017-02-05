@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
 
     private double mRatingThreshold = 7.5;
-    private int mMinimumRatings = 10;
+    private int mMinimumRatings = 1;
     private int mGteReleaseDate = 1950;
     private int mLteReleaseDate = 2017;
 
@@ -146,9 +146,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+
+        case R.id.sort:
+
+            MaterialDialog sortDialog = new MaterialDialog.Builder(this)
+                    .customView(R.layout.sort_fragment, true)
+                    .positiveText("Search")
+                    .negativeText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            setDiscoverUrl();
+                            fetchResults();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+            return true;
+
         case R.id.options:
 
-            MaterialDialog dialog = new MaterialDialog.Builder(this)
+            MaterialDialog searchDialog = new MaterialDialog.Builder(this)
                     .customView(R.layout.search_fragment, true)
                     .positiveText("Search")
                     .negativeText("Cancel")
@@ -166,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
 
-            View view = dialog.getCustomView();
+            View view = searchDialog.getCustomView();
 
             com.shawnlin.numberpicker.NumberPicker ratingThresholdPicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.ratingNumberPicker);
             ratingThresholdPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
@@ -176,15 +198,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-//            NumberPicker minimumRatingsPicker = (NumberPicker)view.findViewById(R.id.minimumRatingsNumberPicker);
-//            minimumRatingsPicker.setMinValue(0);
-//            minimumRatingsPicker.setMaxValue(10);
-//            minimumRatingsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-//                @Override
-//                public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
-//                    mMinimumRatings = newValue;
-//                }
-//            });
+            com.shawnlin.numberpicker.NumberPicker minimumRatingsPicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.minimumRatingsNumberPicker);
+            minimumRatingsPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                    mMinimumRatings = newVal;
+                }
+            });
+
+            com.shawnlin.numberpicker.NumberPicker startReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.startYearNumberPicker);
+            startReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                    mGteReleaseDate = newVal;
+                }
+            });
+
+            com.shawnlin.numberpicker.NumberPicker endReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.endYearNumberPicker);
+            endReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                    mLteReleaseDate = newVal;
+                }
+            });
 
             return(true);
     }
