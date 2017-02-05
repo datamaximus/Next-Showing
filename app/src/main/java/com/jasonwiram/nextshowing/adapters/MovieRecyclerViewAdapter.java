@@ -86,15 +86,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         private void displayMovieOverview() {
 
-//            Bundle bundle = new Bundle();
-//            bundle.putString("title", titleTextView.getText().toString());
-//            bundle.putString("overview", overviewTextView.getText().toString());
-//
-//            FragmentManager fragmentManager =  ((MainActivity)mContext).getSupportFragmentManager();
-//            OverviewFragment overviewFragment = new OverviewFragment();
-//            overviewFragment.setArguments(bundle);
-//            overviewFragment.show(fragmentManager, "Overview");
-
             new MaterialDialog.Builder(mContext)
                     .title("Overview")
                     .content(overviewTextView.getText().toString())

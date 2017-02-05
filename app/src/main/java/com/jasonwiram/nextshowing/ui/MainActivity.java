@@ -148,31 +148,43 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.options:
 
-            MaterialDialog.Builder dialog = new MaterialDialog.Builder(this);
+            MaterialDialog dialog = new MaterialDialog.Builder(this)
+                    .customView(R.layout.search_fragment, true)
+                    .positiveText("Search")
+                    .negativeText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            setDiscoverUrl();
+                            fetchResults();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
 
-            dialog.customView(R.layout.search_fragment, true)
-                .title("Discover")
-                .positiveText("Search")
-                .negativeText("Cancel");
+            View view = dialog.getCustomView();
 
-            TextView text = (TextView)findViewById(R.id.ratingSearchTextView);
-            Log.d(TAG, text.getText().toString());
+            com.shawnlin.numberpicker.NumberPicker ratingThresholdPicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.ratingNumberPicker);
+            ratingThresholdPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                        mRatingThreshold = newVal;
+                }
+            });
 
-                dialog.onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        setDiscoverUrl();
-                        fetchResults();
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-
-            .show();
+//            NumberPicker minimumRatingsPicker = (NumberPicker)view.findViewById(R.id.minimumRatingsNumberPicker);
+//            minimumRatingsPicker.setMinValue(0);
+//            minimumRatingsPicker.setMaxValue(10);
+//            minimumRatingsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//                @Override
+//                public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
+//                    mMinimumRatings = newValue;
+//                }
+//            });
 
             return(true);
     }

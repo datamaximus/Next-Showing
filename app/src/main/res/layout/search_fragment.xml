@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="Minimum Rating"
+            android:text="Rating threshold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ratingThresholdtextView"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-
-        <TextView
-            android:text="9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingSearchTextView"
+            android:id="@+id/ratingThresholdTextView"
             android:layout_weight="1" />
 
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/ratingNumberPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="false"
+            app:np_width="150dp"
+            app:np_height="180dp"
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_orientation="horizontal"
+            app:np_textSize="@dimen/md_button_textsize"
+            app:np_max="10"
+            app:np_min="0"
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <!--app:np_formatter="@string/number_picker_formatter"-->
+        app:np_max="59"
+        app:np_min="0"
+        app:np_textColor="@color/colorPrimary"
+        <!--app:np_textSize="@dimen/text_size"-->
+        <!--app:np_typeface="@string/roboto_light" />-->
+
 </RelativeLayout>
