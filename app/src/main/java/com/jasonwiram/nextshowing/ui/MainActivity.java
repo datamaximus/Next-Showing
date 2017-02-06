@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -166,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     }).show();
+
+            View sortView = sortDialog.getCustomView();
+
+            RadioGroup sortByGroup = (RadioGroup)sortView.findViewById(R.id.choiceRadioGroup);
+
             return true;
 
         case R.id.options:
@@ -188,9 +194,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
 
-            View view = searchDialog.getCustomView();
+            View searchView = searchDialog.getCustomView();
 
-            com.shawnlin.numberpicker.NumberPicker ratingThresholdPicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.ratingNumberPicker);
+            com.shawnlin.numberpicker.NumberPicker ratingThresholdPicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.ratingNumberPicker);
             ratingThresholdPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -198,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            com.shawnlin.numberpicker.NumberPicker minimumRatingsPicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.minimumRatingsNumberPicker);
+            com.shawnlin.numberpicker.NumberPicker minimumRatingsPicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.minimumRatingsNumberPicker);
             minimumRatingsPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -206,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            com.shawnlin.numberpicker.NumberPicker startReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.startYearNumberPicker);
+            com.shawnlin.numberpicker.NumberPicker startReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.startYearNumberPicker);
             startReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -214,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            com.shawnlin.numberpicker.NumberPicker endReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)view.findViewById(R.id.endYearNumberPicker);
+            com.shawnlin.numberpicker.NumberPicker endReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.endYearNumberPicker);
             endReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {

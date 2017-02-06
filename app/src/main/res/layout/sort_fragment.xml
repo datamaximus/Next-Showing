@@ -1,6 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CCC">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:checkedButton="@+id/popularityRadioButton"
+            android:id="@+id/choiceRadioGroup"
+            android:background="#FFF"
+            android:layout_marginRight="1dp">
+
+            <RadioButton
+                android:text="Popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/popularityRadioButton"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+            <RadioButton
+                android:text="Release date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/releaseDateRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:text="Revenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/revenueRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:text="Average vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/averageVoteRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:text="# Votes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberVotesRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checkedButton="@+id/ascendingRadioButton"
+            android:id="@+id/sortByRadioGroup"
+            android:background="#FFF"
+            android:paddingLeft="8dp">
+
+            <RadioButton
+                android:text="Ascending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ascendingRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:text="Descending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/descendingRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+        </RadioGroup>
+    </LinearLayout>
 
 </RelativeLayout>
