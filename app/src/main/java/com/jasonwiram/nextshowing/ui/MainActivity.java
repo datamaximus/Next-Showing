@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,9 +61,11 @@ public class MainActivity extends AppCompatActivity {
     private int mMinimumRatings = 1;
     private int mGteReleaseDate = 1950;
     private int mLteReleaseDate = 2017;
+    private String mSortChoice = "popularity";
+    private String mSortBy = "desc";
 
     private Genre mGenres = new Genre();
-    private Movie[] mMovies;
+    private List<Movie> mMovies = new ArrayList<>();
     private String discoverUrl;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
                 "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
                 "&language=en-US" +
-                "&sort_by=popularity.desc" +
+                "&sort_by=" + mSortChoice + "." + mSortBy +
                 "&include_adult=false" +
                 "&include_video=false" +
                 "&page=1" +
@@ -168,9 +173,28 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
 
-            View sortView = sortDialog.getCustomView();
-
-            RadioGroup sortByGroup = (RadioGroup)sortView.findViewById(R.id.choiceRadioGroup);
+            final View sortView = sortDialog.getCustomView();
+            RadioGroup choiceGroup = (RadioGroup) sortView.findViewById(R.id.choiceRadioGroup);
+            choiceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if (i == R.id.popularityRadioButton) {
+                        mSortChoice = "popularity";
+                    }
+                    else if (i == R.id.releaseDateRadioButton) {
+                        mSortChoice = "release_date";
+                    }
+                    else if (i == R.id.revenueRadioButton) {
+                        mSortChoice = "revenue";
+                    }
+                    else if (i == R.id.averageVoteRadioButton) {
+                        mSortChoice = "vote_average";
+                    }
+                    else if (i == R.id.numberVotesRadioButton) {
+                        mSortChoice = "vote_count";
+                    }
+                }
+            });
 
             return true;
 
@@ -241,11 +265,11 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
-    private Movie[] getMovies(String jsonData) throws JSONException {
+    private List<Movie> getMovies(String jsonData) throws JSONException {
         JSONObject resultsData = new JSONObject(jsonData);
         JSONArray results = resultsData.getJSONArray("results");
 
-        Movie[] movies = new Movie[results.length()];
+        List<Movie> movies = new ArrayList<>();
 
         for (int i = 0; i < results.length(); i++) {
             JSONObject jsonMovie = results.getJSONObject(i);
@@ -266,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
             }
             movie.setGenres(genres);
 
-            movies[i] = movie;
+            movies.add(movie);
         }
 
         return movies;

@@ -19,12 +19,15 @@ import com.jasonwiram.nextshowing.ui.MainActivity;
 import com.jasonwiram.nextshowing.ui.OverviewFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder> {
 
     private Context mContext;
-    private Movie[] mMovies;
+    private List<Movie> mMovies = new ArrayList<>();
 
-    public MovieRecyclerViewAdapter(Context context, Movie[] movies) {
+    public MovieRecyclerViewAdapter(Context context, List<Movie> movies) {
         mContext = context;
         mMovies = movies;
     }
@@ -39,12 +42,12 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bindMovie(mMovies[position]);
+        holder.bindMovie(mMovies.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mMovies.length;
+        return mMovies.size();
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
