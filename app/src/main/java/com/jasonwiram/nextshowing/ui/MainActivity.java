@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            return true;
+            return(true);
 
         case R.id.options:
 
