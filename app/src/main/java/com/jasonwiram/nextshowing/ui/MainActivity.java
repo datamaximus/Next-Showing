@@ -1,7 +1,5 @@
 package com.jasonwiram.nextshowing.ui;
 
-import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,32 +13,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.StackingBehavior;
-import com.jasonwiram.nextshowing.Model.Genre;
-import com.jasonwiram.nextshowing.Model.Movie;
 import com.jasonwiram.nextshowing.Model.Results;
 import com.jasonwiram.nextshowing.R;
-import com.jasonwiram.nextshowing.adapters.MovieAdapter;
 import com.jasonwiram.nextshowing.adapters.MovieRecyclerViewAdapter;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -50,7 +31,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.jasonwiram.nextshowing.R.layout.activity_main;
-import static com.jasonwiram.nextshowing.R.layout.search_fragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private int mLteReleaseDate = 2017;
     private String mSortChoice = "popularity";
     private String mSortBy = "desc";
+    private int mPage = 1;
 
-    private Genre mGenres = new Genre();
-    private List<Movie> mMovies = new ArrayList<>();
+    private Results mResults = new Results();
     private String discoverUrl;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
@@ -82,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setDiscoverUrl();
-
         fetchResults();
     }
 
@@ -93,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 "&sort_by=" + mSortChoice + "." + mSortBy +
                 "&include_adult=false" +
                 "&include_video=false" +
-                "&page=1" +
+                "&page=" + mPage +
                 "&primary_release_date.gte=" + mGteReleaseDate +
                 "&primary_release_date.lte=" + mLteReleaseDate +
                 "&vote_count.gte=" + mMinimumRatings +
@@ -119,11 +98,11 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String jsonData = response.body().string();
                         if (response.isSuccessful()) {
-                            mMovies = getMovies(jsonData);
+                            mResults.setMovies(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateResults();
+                                    displayResults();
                                 }
                             });
                         } else {
@@ -257,43 +236,32 @@ public class MainActivity extends AppCompatActivity {
         return(super.onOptionsItemSelected(item));
     }
 
-    private void updateResults() {
-        MovieRecyclerViewAdapter adapter = new MovieRecyclerViewAdapter(this, mMovies);
+    private void displayResults() {
+        MovieRecyclerViewAdapter adapter = new MovieRecyclerViewAdapter(this, mResults.getMovies());
         mRecyclerView.setAdapter(adapter);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    add20Items();
+                }
+            }
+        });
     }
 
-    private List<Movie> getMovies(String jsonData) throws JSONException {
-        JSONObject resultsData = new JSONObject(jsonData);
-        JSONArray results = resultsData.getJSONArray("results");
-
-        List<Movie> movies = new ArrayList<>();
-
-        for (int i = 0; i < results.length(); i++) {
-            JSONObject jsonMovie = results.getJSONObject(i);
-            Movie movie = new Movie();
-
-            movie.setTitle(jsonMovie.getString("title"));
-            movie.setOverview(jsonMovie.getString("overview"));
-            movie.setPoster(jsonMovie.getString("poster_path"));
-            movie.setRating(jsonMovie.getDouble("vote_average"));
-            movie.setPopularity(jsonMovie.getDouble("popularity"));
-            movie.setId(jsonMovie.getInt("id"));
-            movie.setReleaseDate(jsonMovie.getString("release_date"));
-
-            JSONArray genresData = jsonMovie.getJSONArray("genre_ids");
-            String[] genres = new String[genresData.length()];
-            for (int j = 0; j < genresData.length(); j++) {
-                genres[j] = mGenres.genreIds.get(genresData.getInt(j));
-            }
-            movie.setGenres(genres);
-
-            movies.add(movie);
-        }
-
-        return movies;
+    private void add20Items() {
+        Log.d(TAG, "Scrolling works");
+//        adapter.list.addAll(itemsToAdd);
+//        adapter.notifyDataSetChanged();
     }
 
     private boolean isNetworkAvailable() {
