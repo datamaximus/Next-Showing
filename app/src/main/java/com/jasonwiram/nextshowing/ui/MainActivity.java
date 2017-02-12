@@ -22,6 +22,7 @@ import com.jasonwiram.nextshowing.R;
 import com.jasonwiram.nextshowing.adapters.MovieRecyclerViewAdapter;
 import org.json.JSONException;
 import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Results mResults = new Results();
     private String discoverUrl;
+    private MovieRecyclerViewAdapter adapter;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         setDiscoverUrl();
         fetchResults();
+
+        adapter = new MovieRecyclerViewAdapter(this, mResults.getMovies());
+        mRecyclerView.setAdapter(adapter);
     }
 
     private void setDiscoverUrl() {
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    displayResults();
+                                    updateResults();
                                 }
                             });
                         } else {
@@ -154,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
             final View sortView = sortDialog.getCustomView();
             RadioGroup choiceGroup = (RadioGroup) sortView.findViewById(R.id.choiceRadioGroup);
+            mSortChoice = "popularity";
+
             choiceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -161,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         mSortChoice = "popularity";
                     }
                     else if (i == R.id.releaseDateRadioButton) {
-                        mSortChoice = "release_date";
+                        mSortChoice = "primary_release_date";
                     }
                     else if (i == R.id.revenueRadioButton) {
                         mSortChoice = "revenue";
@@ -236,32 +243,10 @@ public class MainActivity extends AppCompatActivity {
         return(super.onOptionsItemSelected(item));
     }
 
-    private void displayResults() {
-        MovieRecyclerViewAdapter adapter = new MovieRecyclerViewAdapter(this, mResults.getMovies());
-        mRecyclerView.setAdapter(adapter);
+    private void updateResults() {
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    add20Items();
-                }
-            }
-        });
-    }
-
-    private void add20Items() {
-        Log.d(TAG, "Scrolling works");
-//        adapter.list.addAll(itemsToAdd);
-//        adapter.notifyDataSetChanged();
     }
 
     private boolean isNetworkAvailable() {
