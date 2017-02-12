@@ -68,6 +68,26 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new MovieRecyclerViewAdapter(this, mResults.getMovies());
         mRecyclerView.setAdapter(adapter);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    Log.d(TAG, "Scrolling");
+                    mPage += 1;
+                    setDiscoverUrl();
+                    fetchResults();
+                }
+            }
+        });
     }
 
     private void setDiscoverUrl() {
@@ -107,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateResults();
+                                    adapter.notifyDataSetChanged();
                                 }
                             });
                         } else {
@@ -139,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
         case R.id.sort:
 
+            final String tempUrl = discoverUrl;
             MaterialDialog sortDialog = new MaterialDialog.Builder(this)
                     .customView(R.layout.sort_fragment, true)
                     .positiveText("Search")
@@ -146,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            mPage = 1;
+                            mResults.clearResults();
                             setDiscoverUrl();
                             fetchResults();
                         }
@@ -153,14 +176,15 @@ public class MainActivity extends AppCompatActivity {
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            discoverUrl = tempUrl;
                             dialog.dismiss();
                         }
                     }).show();
 
             final View sortView = sortDialog.getCustomView();
+
             RadioGroup choiceGroup = (RadioGroup) sortView.findViewById(R.id.choiceRadioGroup);
             mSortChoice = "popularity";
-
             choiceGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -182,10 +206,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            RadioGroup sortByGroup = (RadioGroup) sortView.findViewById(R.id.sortByRadioGroup);
+            mSortBy = "asc";
+            sortByGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if (i == R.id.ascendingRadioButton) {
+                        mSortBy = "asc";
+                    } else if (i == R.id.descendingRadioButton) {
+                        mSortBy = "desc";
+                    }
+                }
+            });
+
             return(true);
 
         case R.id.options:
 
+            final String optionsUrl = discoverUrl;
             MaterialDialog searchDialog = new MaterialDialog.Builder(this)
                     .customView(R.layout.search_fragment, true)
                     .positiveText("Search")
@@ -193,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            mPage = 1;
+                            mResults.clearResults();
                             setDiscoverUrl();
                             fetchResults();
                         }
@@ -200,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            discoverUrl = optionsUrl;
                             dialog.dismiss();
                         }
                     }).show();
@@ -241,12 +282,6 @@ public class MainActivity extends AppCompatActivity {
             return(true);
     }
         return(super.onOptionsItemSelected(item));
-    }
-
-    private void updateResults() {
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     private boolean isNetworkAvailable() {

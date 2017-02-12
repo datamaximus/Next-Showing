@@ -16,7 +16,6 @@ public class Results {
     }
 
     public void setMovies (String jsonData) throws JSONException {
-        mMovies.clear();
         JSONObject resultsData = new JSONObject(jsonData);
         JSONArray results = resultsData.getJSONArray("results");
 
@@ -41,5 +40,9 @@ public class Results {
 
             mMovies.add(movie);
         }
+    }
+
+    public void clearResults() {
+        mMovies.clear();
     }
 }
