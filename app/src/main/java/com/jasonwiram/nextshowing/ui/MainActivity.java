@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private Context mContext;
 
-    private double mRatingThreshold = 7.5;
+    private int mRatingThreshold = 8;
     private int mMinimumRatings = 1;
     private int mGteReleaseDate = 1950;
     private int mLteReleaseDate = 2017;
@@ -248,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
             View searchView = searchDialog.getCustomView();
 
             com.shawnlin.numberpicker.NumberPicker ratingThresholdPicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.ratingNumberPicker);
+            ratingThresholdPicker.setValue(mRatingThreshold);
             ratingThresholdPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -256,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             com.shawnlin.numberpicker.NumberPicker minimumRatingsPicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.minimumRatingsNumberPicker);
+            minimumRatingsPicker.setValue(mMinimumRatings);
             minimumRatingsPicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -264,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             com.shawnlin.numberpicker.NumberPicker startReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.startYearNumberPicker);
+            startReleaseDatePicker.setValue(mGteReleaseDate);
             startReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
@@ -272,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             com.shawnlin.numberpicker.NumberPicker endReleaseDatePicker = (com.shawnlin.numberpicker.NumberPicker)searchView.findViewById(R.id.endYearNumberPicker);
+            endReleaseDatePicker.setValue(mLteReleaseDate);
             endReleaseDatePicker.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
