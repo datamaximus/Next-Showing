@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 "&primary_release_date.gte=" + mGteReleaseDate +
                 "&primary_release_date.lte=" + mLteReleaseDate +
                 "&vote_count.gte=" + mMinimumRatings +
-                "&vote_average.gte=" + mRatingThreshold;
+                "&vote_average.gte=" + mRatingThreshold +
+                "&without_genres=" + 0;
     }
 
     private void fetchResults() {
