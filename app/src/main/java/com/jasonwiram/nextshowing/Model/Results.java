@@ -12,14 +12,17 @@ public class Results {
     private Genre mGenres = new Genre();
     private List<String> mFilterGenres = new ArrayList<>();
 
+    public Results() {
+        for (Integer key : mGenres.genreIds.keySet()) {
+            mFilterGenres.add(Integer.toString(key));
+        }
+    }
+
     public List<Movie> getMovies() {
         return mMovies;
     }
 
     public void setMovies (String jsonData) throws JSONException {
-        for (Integer key : mGenres.genreIds.keySet()) {
-            mFilterGenres.add(Integer.toString(key));
-        }
 
         JSONObject resultsData = new JSONObject(jsonData);
         JSONArray results = resultsData.getJSONArray("results");

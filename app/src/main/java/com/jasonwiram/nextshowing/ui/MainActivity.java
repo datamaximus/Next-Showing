@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int mLteReleaseDate = 2017;
     private String mSortChoice = "popularity";
     private String mSortBy = "desc";
+    private String mWithoutGenres = "0";
     private int mPage = 1;
 
     private Results mResults = new Results();
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 "&primary_release_date.lte=" + mLteReleaseDate +
                 "&vote_count.gte=" + mMinimumRatings +
                 "&vote_average.gte=" + mRatingThreshold +
-                "&without_genres=" + 0;
+                "&without_genres=" + mWithoutGenres;
     }
 
     private void fetchResults() {
@@ -157,6 +158,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+
+        case R.id.genres:
+
+            return true;
 
         case R.id.sort:
 
