@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jasonwiram.nextshowing.Model.Results;
@@ -160,6 +163,43 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
 
         case R.id.genres:
+
+            final String tempGenreUrl = discoverUrl;
+            MaterialDialog genreDialog = new MaterialDialog.Builder(this)
+                    .customView(R.layout.genre_filter, true)
+                    .positiveText("Search")
+                    .negativeText("Cancel")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            mPage = 1;
+                            mWithoutGenres = mResults.filterGenresAsString();
+                            mResults.clearResults();
+                            setDiscoverUrl();
+                            Log.d(TAG, discoverUrl);
+                            fetchResults();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            discoverUrl = tempGenreUrl;
+                            dialog.dismiss();
+                        }
+                    }).show();
+
+            final View genreView = genreDialog.getCustomView();
+
+            final ToggleButton musicalToggleButton = (ToggleButton) genreView.findViewById(R.id.musicToggleButton);
+            musicalToggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!musicalToggleButton.isChecked()) {
+                        mResults.mFilterGenres.add("10402");
+                        Log.d(TAG, mResults.filterGenresAsString());
+                    }
+                }
+            });
 
             return true;
 

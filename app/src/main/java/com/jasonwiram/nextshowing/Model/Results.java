@@ -5,18 +5,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Results {
     private List<Movie> mMovies = new ArrayList<>();
     private Genre mGenres = new Genre();
-    private List<String> mFilterGenres = new ArrayList<>();
+    public List<String> mFilterGenres = new ArrayList<>();
 
-    public Results() {
-        for (Integer key : mGenres.genreIds.keySet()) {
-            mFilterGenres.add(Integer.toString(key));
-        }
-    }
+//    public Results() {
+//        for (Integer key : mGenres.genreIds.keySet()) {
+//            mFilterGenres.add(Integer.toString(key));
+//        }
+//    }
 
     public List<Movie> getMovies() {
         return mMovies;
@@ -52,5 +53,12 @@ public class Results {
 
     public void clearResults() {
         mMovies.clear();
+    }
+
+    public String filterGenresAsString() {
+        String[] stringArray = new String[mFilterGenres.size()];
+        mFilterGenres.toArray(stringArray);
+        String genreString = Arrays.toString(stringArray);
+        return genreString.substring(1, genreString.length()-1).replaceAll("\\s+","");
     }
 }
