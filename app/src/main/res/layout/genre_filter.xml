@@ -1,15 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
 
-    <ToggleButton
-        android:text="Musical"
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/musicToggleButton"
-        android:textOff="Musical"
-        android:textOn="Musical"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:checked="true" />
+        android:columnCount="3"
+        android:rowCount="7"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ToggleButton
+            android:text="Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/actionToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Action"
+            android:textOff="Action"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Adventure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/adventureToggleButton"
+            android:textOff="Adventure"
+            android:textOn="Adventure"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/animationToggleButton"
+            android:textOff="Animation"
+            android:textOn="Animation"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Comedy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comedyToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOff="Comedy"
+            android:textOn="Comedy"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Crime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/crimeToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Crime"
+            android:textOff="Crime"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Documentary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/documentaryToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOff="Documen."
+            android:textOn="Documen."
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Drama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dramaToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Drama"
+            android:textOff="Drama"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Family"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/familyToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Family"
+            android:textOff="Family"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Fantasy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fantasyToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Fantasy"
+            android:textOff="Fantasy"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="History"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/historyToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="History"
+            android:textOff="History"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Horror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horrorToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Horror"
+            android:textOff="Horror"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Musical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/musicToggleButton"
+            android:textOff="Musical"
+            android:textOn="Musical"
+            android:checked="true"
+            android:maxWidth="88dip"
+            android:textSize="10sp" />
+
+        <ToggleButton
+            android:text="Mystery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mysteryToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Mystery"
+            android:textOff="Mystery"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Romance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/romanceToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Romance"
+            android:textOff="Romance"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Sci FI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scienceFictionToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Sci Fi"
+            android:textOff="Sci Fi"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="TV Movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMovieToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="TV Movie"
+            android:textOff="TV Movie"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Thriller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thrillerToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Thriller"
+            android:textOff="Thriller"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="War"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/warToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="War"
+            android:textOff="War"
+            android:checked="true" />
+
+        <ToggleButton
+            android:text="Western"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/westernToggleButton"
+            android:maxWidth="88dip"
+            android:textSize="10sp"
+            android:textOn="Western"
+            android:textOff="Western"
+            android:checked="true" />
+
+    </GridLayout>
 </RelativeLayout>

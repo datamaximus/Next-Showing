@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
             MaterialDialog genreDialog = new MaterialDialog.Builder(this)
                     .customView(R.layout.genre_filter, true)
+                    .title("Genres:")
                     .positiveText("Done")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
@@ -176,27 +177,45 @@ public class MainActivity extends AppCompatActivity {
 
             final View genreView = genreDialog.getCustomView();
 
+            final ToggleButton actionToggleButton = (ToggleButton) genreView.findViewById(R.id.actionToggleButton);
+            final ToggleButton adventureToggleButton = (ToggleButton) genreView.findViewById(R.id.adventureToggleButton);
+            final ToggleButton animationToggleButton = (ToggleButton) genreView.findViewById(R.id.animationToggleButton);
+            final ToggleButton comedyToggleButton = (ToggleButton) genreView.findViewById(R.id.comedyToggleButton);
+            final ToggleButton crimeToggleButton = (ToggleButton) genreView.findViewById(R.id.crimeToggleButton);
+            final ToggleButton documentaryToggleButton = (ToggleButton) genreView.findViewById(R.id.documentaryToggleButton);
+            final ToggleButton dramaToggleButton = (ToggleButton) genreView.findViewById(R.id.dramaToggleButton);
+            final ToggleButton familyToggleButton = (ToggleButton) genreView.findViewById(R.id.familyToggleButton);
+            final ToggleButton fantasyToggleButton = (ToggleButton) genreView.findViewById(R.id.fantasyToggleButton);
+            final ToggleButton historyToggleButton = (ToggleButton) genreView.findViewById(R.id.historyToggleButton);
+            final ToggleButton horrorToggleButton = (ToggleButton) genreView.findViewById(R.id.horrorToggleButton);
             final ToggleButton musicalToggleButton = (ToggleButton) genreView.findViewById(R.id.musicToggleButton);
-            musicalToggleButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!musicalToggleButton.isChecked()) {
-                        mResults.mFilterGenres.add("10402");
-                        mPage = 1;
-                        mWithoutGenres = mResults.filterGenresAsString();
-                        mResults.clearResults();
-                        setDiscoverUrl();
-                        fetchResults();
-                    } else if (musicalToggleButton.isChecked()) {
-                        mResults.mFilterGenres.remove("10402");
-                        mPage = 1;
-                        mWithoutGenres = mResults.filterGenresAsString();
-                        mResults.clearResults();
-                        setDiscoverUrl();
-                        fetchResults();
-                    }
-                }
-            });
+            final ToggleButton mysteryToggleButton = (ToggleButton) genreView.findViewById(R.id.mysteryToggleButton);
+            final ToggleButton romanceToggleButton = (ToggleButton) genreView.findViewById(R.id.romanceToggleButton);
+            final ToggleButton scienceFictionToggleButton = (ToggleButton) genreView.findViewById(R.id.scienceFictionToggleButton);
+            final ToggleButton tvMovieToggleButton = (ToggleButton) genreView.findViewById(R.id.tvMovieToggleButton);
+            final ToggleButton thrillerToggleButton = (ToggleButton) genreView.findViewById(R.id.thrillerToggleButton);
+            final ToggleButton warToggleButton = (ToggleButton) genreView.findViewById(R.id.warToggleButton);
+            final ToggleButton westernToggleButton = (ToggleButton) genreView.findViewById(R.id.westernToggleButton);
+
+            setToggleButtonListener(actionToggleButton, "28");
+            setToggleButtonListener(adventureToggleButton, "12");
+            setToggleButtonListener(animationToggleButton, "16");
+            setToggleButtonListener(comedyToggleButton, "35");
+            setToggleButtonListener(crimeToggleButton, "80");
+            setToggleButtonListener(documentaryToggleButton, "99");
+            setToggleButtonListener(dramaToggleButton, "18");
+            setToggleButtonListener(familyToggleButton, "10751");
+            setToggleButtonListener(fantasyToggleButton, "14");
+            setToggleButtonListener(historyToggleButton, "36");
+            setToggleButtonListener(horrorToggleButton, "27");
+            setToggleButtonListener(musicalToggleButton, "10402");
+            setToggleButtonListener(mysteryToggleButton, "9648");
+            setToggleButtonListener(romanceToggleButton, "10749");
+            setToggleButtonListener(scienceFictionToggleButton, "878");
+            setToggleButtonListener(tvMovieToggleButton, "10770");
+            setToggleButtonListener(thrillerToggleButton, "53");
+            setToggleButtonListener(warToggleButton, "10752");
+            setToggleButtonListener(westernToggleButton, "37");
 
             return true;
 
@@ -211,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             mPage = 1;
+                            mResults.mFilterGenres.clear();
+                            mWithoutGenres = mResults.filterGenresAsString();
                             mResults.clearResults();
                             setDiscoverUrl();
                             fetchResults();
@@ -275,6 +296,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             mPage = 1;
+                            mResults.mFilterGenres.clear();
+                            mWithoutGenres = mResults.filterGenresAsString();
                             mResults.clearResults();
                             setDiscoverUrl();
                             fetchResults();
@@ -345,5 +368,28 @@ public class MainActivity extends AppCompatActivity {
     private void alertUserAboutError() {
         AlertDialogFragment dialog = new AlertDialogFragment();
         dialog.show(getFragmentManager(), "error_dialog");
+    }
+
+    private void setToggleButtonListener (final ToggleButton toggle, final String genreString) {
+        toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!toggle.isChecked()) {
+                    mResults.mFilterGenres.add(genreString);
+                    mPage = 1;
+                    mWithoutGenres = mResults.filterGenresAsString();
+                    mResults.clearResults();
+                    setDiscoverUrl();
+                    fetchResults();
+                } else if (toggle.isChecked()) {
+                    mResults.mFilterGenres.remove(genreString);
+                    mPage = 1;
+                    mWithoutGenres = mResults.filterGenresAsString();
+                    mResults.clearResults();
+                    setDiscoverUrl();
+                    fetchResults();
+                }
+            }
+        });
     }
 }
