@@ -178,24 +178,81 @@ public class MainActivity extends AppCompatActivity {
             final View genreView = genreDialog.getCustomView();
 
             final ToggleButton actionToggleButton = (ToggleButton) genreView.findViewById(R.id.actionToggleButton);
+            if (mResults.mFilterGenres.contains("28")) {
+                actionToggleButton.setChecked(false);
+            }
             final ToggleButton adventureToggleButton = (ToggleButton) genreView.findViewById(R.id.adventureToggleButton);
+            if (mResults.mFilterGenres.contains("12")) {
+                adventureToggleButton.setChecked(false);
+            }
             final ToggleButton animationToggleButton = (ToggleButton) genreView.findViewById(R.id.animationToggleButton);
+            if (mResults.mFilterGenres.contains("16")) {
+                animationToggleButton.setChecked(false);
+            }
             final ToggleButton comedyToggleButton = (ToggleButton) genreView.findViewById(R.id.comedyToggleButton);
+            if (mResults.mFilterGenres.contains("35")) {
+                comedyToggleButton.setChecked(false);
+            }
             final ToggleButton crimeToggleButton = (ToggleButton) genreView.findViewById(R.id.crimeToggleButton);
+            if (mResults.mFilterGenres.contains("80")) {
+                crimeToggleButton.setChecked(false);
+            }
             final ToggleButton documentaryToggleButton = (ToggleButton) genreView.findViewById(R.id.documentaryToggleButton);
+            if (mResults.mFilterGenres.contains("99")) {
+                documentaryToggleButton.setChecked(false);
+            }
             final ToggleButton dramaToggleButton = (ToggleButton) genreView.findViewById(R.id.dramaToggleButton);
+            if (mResults.mFilterGenres.contains("18")) {
+                dramaToggleButton.setChecked(false);
+            }
             final ToggleButton familyToggleButton = (ToggleButton) genreView.findViewById(R.id.familyToggleButton);
+            if (mResults.mFilterGenres.contains("10751")) {
+                familyToggleButton.setChecked(false);
+            }
             final ToggleButton fantasyToggleButton = (ToggleButton) genreView.findViewById(R.id.fantasyToggleButton);
+            if (mResults.mFilterGenres.contains("14")) {
+                fantasyToggleButton.setChecked(false);
+            }
             final ToggleButton historyToggleButton = (ToggleButton) genreView.findViewById(R.id.historyToggleButton);
+            if (mResults.mFilterGenres.contains("36")) {
+                historyToggleButton.setChecked(false);
+            }
             final ToggleButton horrorToggleButton = (ToggleButton) genreView.findViewById(R.id.horrorToggleButton);
+            if (mResults.mFilterGenres.contains("27")) {
+                horrorToggleButton.setChecked(false);
+            }
             final ToggleButton musicalToggleButton = (ToggleButton) genreView.findViewById(R.id.musicToggleButton);
+            if (mResults.mFilterGenres.contains("10402")) {
+                musicalToggleButton.setChecked(false);
+            }
             final ToggleButton mysteryToggleButton = (ToggleButton) genreView.findViewById(R.id.mysteryToggleButton);
+            if (mResults.mFilterGenres.contains("9648")) {
+                mysteryToggleButton.setChecked(false);
+            }
             final ToggleButton romanceToggleButton = (ToggleButton) genreView.findViewById(R.id.romanceToggleButton);
+            if (mResults.mFilterGenres.contains("10749")) {
+                romanceToggleButton.setChecked(false);
+            }
             final ToggleButton scienceFictionToggleButton = (ToggleButton) genreView.findViewById(R.id.scienceFictionToggleButton);
+            if (mResults.mFilterGenres.contains("878")) {
+                scienceFictionToggleButton.setChecked(false);
+            }
             final ToggleButton tvMovieToggleButton = (ToggleButton) genreView.findViewById(R.id.tvMovieToggleButton);
+            if (mResults.mFilterGenres.contains("10770")) {
+                tvMovieToggleButton.setChecked(false);
+            }
             final ToggleButton thrillerToggleButton = (ToggleButton) genreView.findViewById(R.id.thrillerToggleButton);
+            if (mResults.mFilterGenres.contains("53")) {
+                thrillerToggleButton.setChecked(false);
+            }
             final ToggleButton warToggleButton = (ToggleButton) genreView.findViewById(R.id.warToggleButton);
+            if (mResults.mFilterGenres.contains("10752")) {
+                warToggleButton.setChecked(false);
+            }
             final ToggleButton westernToggleButton = (ToggleButton) genreView.findViewById(R.id.westernToggleButton);
+            if (mResults.mFilterGenres.contains("37")) {
+                westernToggleButton.setChecked(false);
+            }
 
             setToggleButtonListener(actionToggleButton, "28");
             setToggleButtonListener(adventureToggleButton, "12");
