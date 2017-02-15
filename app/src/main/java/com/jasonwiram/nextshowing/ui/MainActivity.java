@@ -164,26 +164,12 @@ public class MainActivity extends AppCompatActivity {
 
         case R.id.genres:
 
-            final String tempGenreUrl = discoverUrl;
             MaterialDialog genreDialog = new MaterialDialog.Builder(this)
                     .customView(R.layout.genre_filter, true)
-                    .positiveText("Search")
-                    .negativeText("Cancel")
+                    .positiveText("Done")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            mPage = 1;
-                            mWithoutGenres = mResults.filterGenresAsString();
-                            mResults.clearResults();
-                            setDiscoverUrl();
-                            Log.d(TAG, discoverUrl);
-                            fetchResults();
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            discoverUrl = tempGenreUrl;
                             dialog.dismiss();
                         }
                     }).show();
@@ -196,7 +182,18 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (!musicalToggleButton.isChecked()) {
                         mResults.mFilterGenres.add("10402");
-                        Log.d(TAG, mResults.filterGenresAsString());
+                        mPage = 1;
+                        mWithoutGenres = mResults.filterGenresAsString();
+                        mResults.clearResults();
+                        setDiscoverUrl();
+                        fetchResults();
+                    } else if (musicalToggleButton.isChecked()) {
+                        mResults.mFilterGenres.remove("10402");
+                        mPage = 1;
+                        mWithoutGenres = mResults.filterGenresAsString();
+                        mResults.clearResults();
+                        setDiscoverUrl();
+                        fetchResults();
                     }
                 }
             });
