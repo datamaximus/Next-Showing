@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:checkedButton="@+id/ascendingRadioButton"
+            android:checkedButton="@+id/descendingRadioButton"
             android:id="@+id/sortByRadioGroup"
             android:background="#FFF"
             android:paddingLeft="8dp">

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Next Showing</string>
+    <string name="app_name">" Next Showing"</string>
     <string name="no_results_data">There is no data to display</string>
 </resources>

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = getBaseContext();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setLogo(R.drawable.ic_tmdb);
         setSupportActionBar(myToolbar);
 
         ButterKnife.bind(this);
@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        Toast.makeText(this, "This product uses the TMDb API but is not endorsed or certified by TMDb.", Toast.LENGTH_LONG).show();
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -328,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             RadioGroup sortByGroup = (RadioGroup) sortView.findViewById(R.id.sortByRadioGroup);
-            mSortBy = "asc";
+            mSortBy = "desc";
             sortByGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
