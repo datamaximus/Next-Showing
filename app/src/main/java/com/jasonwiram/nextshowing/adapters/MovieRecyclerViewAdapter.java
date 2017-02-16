@@ -90,7 +90,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         private void displayMovieOverview() {
 
             new MaterialDialog.Builder(mContext)
-                    .title("Overview")
+                    .title(titleTextView.getText().toString())
                     .content(overviewTextView.getText().toString())
                     .show();
         }

@@ -19,7 +19,8 @@
             android:textSize="10sp"
             android:textOn="Action"
             android:textOff="Action"
-            android:checked="true" />
+            android:checked="true"
+            style="@android:style/Widget.Material.Light.Button.Toggle" />
 
         <ToggleButton
             android:text="Adventure"
