@@ -23,7 +23,7 @@ public class Results {
         return mMovies;
     }
 
-    public void setMovies (String jsonData) throws JSONException {
+    public void setMovies (String jsonData, String tvOrMovie) throws JSONException {
 
         JSONObject resultsData = new JSONObject(jsonData);
         JSONArray results = resultsData.getJSONArray("results");
@@ -32,13 +32,19 @@ public class Results {
             JSONObject jsonMovie = results.getJSONObject(i);
             Movie movie = new Movie();
 
-            movie.setTitle(jsonMovie.getString("title"));
+            if (tvOrMovie == "Movie") {
+                movie.setTitle(jsonMovie.getString("title"));
+                movie.setReleaseDate(jsonMovie.getString("release_date"));
+            } else {
+                movie.setTitle(jsonMovie.getString("name"));
+                movie.setReleaseDate(jsonMovie.getString("first_air_date"));
+            }
+
             movie.setOverview(jsonMovie.getString("overview"));
             movie.setPoster(jsonMovie.getString("poster_path"));
             movie.setRating(jsonMovie.getDouble("vote_average"));
             movie.setPopularity(jsonMovie.getDouble("popularity"));
             movie.setId(jsonMovie.getInt("id"));
-            movie.setReleaseDate(jsonMovie.getString("release_date"));
 
             JSONArray genresData = jsonMovie.getJSONArray("genre_ids");
             String[] genres = new String[genresData.length()];

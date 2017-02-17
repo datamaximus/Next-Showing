@@ -71,18 +71,18 @@
             android:paddingLeft="8dp">
 
             <RadioButton
-                android:text="Ascending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ascendingRadioButton"
-                android:textSize="16sp"
-                android:layout_weight="1"/>
-
-            <RadioButton
                 android:text="Descending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/descendingRadioButton"
+                android:textSize="16sp"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:text="Ascending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ascendingRadioButton"
                 android:textSize="16sp"
                 android:layout_weight="1"/>
         </RadioGroup>

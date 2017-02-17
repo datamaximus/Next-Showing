@@ -80,7 +80,7 @@
                 app:np_dividerColor="@color/colorPrimary"
                 app:np_orientation="horizontal"
                 app:np_textSize="24dp"
-                app:np_max="10"
+                app:np_max="100"
                 app:np_min="0"
                 app:np_dividerDistance="50dp"
                 app:np_textColor="?android:attr/colorAccent"

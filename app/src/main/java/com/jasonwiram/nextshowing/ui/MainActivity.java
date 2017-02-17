@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private Context mContext;
 
+    private String tvOrMovieFlag = "Movie";
+
     private int mRatingThreshold = 8;
     private int mMinimumRatings = 1;
     private int mGteReleaseDate = 1950;
@@ -97,18 +99,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDiscoverUrl() {
-        discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
-                "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
-                "&language=en-US" +
-                "&sort_by=" + mSortChoice + "." + mSortBy +
-                "&include_adult=false" +
-                "&include_video=false" +
-                "&page=" + mPage +
-                "&primary_release_date.gte=" + mGteReleaseDate +
-                "&primary_release_date.lte=" + mLteReleaseDate +
-                "&vote_count.gte=" + mMinimumRatings +
-                "&vote_average.gte=" + mRatingThreshold +
-                "&without_genres=" + mWithoutGenres;
+        if (tvOrMovieFlag == "Movie") {
+            discoverUrl = "https://api.themoviedb.org/3/discover/movie" +
+                    "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
+                    "&language=en-US" +
+                    "&sort_by=" + mSortChoice + "." + mSortBy +
+                    "&include_adult=false" +
+                    "&include_video=false" +
+                    "&page=" + mPage +
+                    "&primary_release_date.gte=" + mGteReleaseDate +
+                    "&primary_release_date.lte=" + mLteReleaseDate +
+                    "&vote_count.gte=" + mMinimumRatings +
+                    "&vote_average.gte=" + mRatingThreshold +
+                    "&without_genres=" + mWithoutGenres;
+            } else {
+            discoverUrl = "https://api.themoviedb.org/3/discover/tv" +
+                    "?api_key=6aac5e90ac5e7f81f8db31c9e5252f2d" +
+                    "&language=en-US" +
+                    "&sort_by=" + mSortChoice + "." + mSortBy +
+                    "&page=" + mPage +
+                    "&first_air_date.gte=" + mGteReleaseDate +
+                    "&first_air_date.lte=" + mLteReleaseDate +
+                    "&vote_count.gte=" + mMinimumRatings +
+                    "&vote_average.gte=" + mRatingThreshold +
+                    "&without_genres=" + mWithoutGenres;
+        }
     }
 
     private void fetchResults() {
@@ -130,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String jsonData = response.body().string();
                         if (response.isSuccessful()) {
-                            mResults.setMovies(jsonData);
+                            mResults.setMovies(jsonData, tvOrMovieFlag);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -163,6 +178,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+
+        case R.id.tv_movie:
+            mResults.clearResults();
+            if(tvOrMovieFlag == "Movie") {
+                tvOrMovieFlag = "TV";
+                item.setTitle("TV shows");
+                setDiscoverUrl();
+                fetchResults();
+            } else {
+                tvOrMovieFlag = "Movie";
+                item.setTitle("Movies");
+                setDiscoverUrl();
+                fetchResults();
+            }
+
+            return true;
 
         case R.id.genres:
 
