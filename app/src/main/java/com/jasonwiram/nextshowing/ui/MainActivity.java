@@ -180,15 +180,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
 
         case R.id.tv_movie:
-            mResults.clearResults();
             if(tvOrMovieFlag == "Movie") {
                 tvOrMovieFlag = "TV";
                 item.setTitle("TV shows");
+                mResults.clearResults();
+                mPage = 1;
                 setDiscoverUrl();
                 fetchResults();
             } else {
                 tvOrMovieFlag = "Movie";
                 item.setTitle("Movies");
+                mResults.clearResults();
+                mPage = 1;
                 setDiscoverUrl();
                 fetchResults();
             }
